@@ -6,9 +6,9 @@ Commands include:
                            quit == ends execution
                mkdir [dir name] == makes a directory. ex: mkdir new_files >> makes new directory calles new_files
  mkfile [file name] "[content]" == makes a file.
-               read [file name] == reads a file's content
-  write [file name] "[content]" == write to file
-rewrite [file name] "[content]" == replace file content with new content
+                  r [file name] == reads a file's content
+      w [file name] "[content]" == write to file
+    rew [file name] "[content]" == replace file content with new content
 """
 class Node():
     def __init__(self, path):
@@ -124,8 +124,11 @@ def loop():
             if new_path == i.path:
                 if i.is_dir() == True:
                     cur_path = new_path
+                    return
                 else:
                     print("~ You can't cd into a file!")
+                    return
+        print("~ can't find directory!")
     elif ln == 1 and cmdl[0] == "quit":
         online = False
     elif ln == 2 and cmdl[0] == "mkdir":
@@ -140,23 +143,44 @@ def loop():
             file_content = quote_split(cmd)[2]
         file_name = cmdl[1]
         system.append(File(str( cur_path + '/' + file_name ), file_content[1:-1]))
-    elif ln == 2 and cmdl[0] == "read":
+    elif ln == 2 and cmdl[0] == "r":
         for node in system:
             if node.is_dir():
                 continue
-            if node.path == str(cur_path + '/' + cmdl[1]):
+            elif node.path == str(cur_path + '/' + cmdl[1]):
                 if node.content == "":
                     print("~ file is empty")
+                    return
                 else:
                     print(node.content + "\n")
                 return
-        else:
-            print("~ couldn't find file!")
+        print("~ couldn't find file!")
+    elif ln >= 3 and cmdl[0] == "w":
+        content = quote_split(cmd)[2][1:-1]
+        file_path = str(cur_path + '/' + cmdl[1])
+        print(content)
+        print(file_path)
+        for node in system:
+            if node.is_dir():
+                continue
+            elif file_path == node.path:
+                node.content += content
+                return
+        print("~ can't find file!")
+    elif ln >= 3 and cmdl[0] == "rew":
+        content = quote_split(cmd)[2][1:-1]
+        file_path = str(cur_path + '/' + cmdl[1])
+        for node in system:
+            if node.is_dir():
+                continue
+            elif file_path == node.path:
+                node.content = content
+                return
+        print("~ can't find file!")
             
         
 
 print("\nstarting...\n")
 while online:
     loop()
-else:
-    print("~ goodbye!")
+print("~ goodbye!")
