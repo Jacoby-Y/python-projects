@@ -1,3 +1,15 @@
+"""
+- This is a mimic of a shell terminal
+Commands include: 
+                             ls == lists all directories/files in the current directory
+                  cd [new path] == change directory. ex: cd ../home >> move to parent folder then go to the "home" folder
+                           quit == ends execution
+               mkdir [dir name] == makes a directory. ex: mkdir new_files >> makes new directory calles new_files
+ mkfile [file name] "[content]" == makes a file.
+               read [file name] == reads a file's content
+  write [file name] "[content]" == write to file
+rewrite [file name] "[content]" == replace file content with new content
+"""
 class Node():
     def __init__(self, path):
         # ex: root/desktop
